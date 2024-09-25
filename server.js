@@ -1,17 +1,20 @@
-'use strict'
+"use strict";
+import { build } from "./app.js";
+const opts = {};
 
-import Fastify from "fastify";
-import dbConnector from "./our-db-connector.js";
-import firstRoute from "./our-first-route.js";
+if (process.stdout.isTTY) {
+	opts.logger = {
+		transport: {
+			target: "pino-pretty",
+		},
+	};
+} else {
+	opts.logger = true;
+}
 
-const fastify = Fastify({
-	logger: true,
-});
+const app = await build(opts);
 
-fastify.register(dbConnector);
-fastify.register(firstRoute);
-
-fastify.listen({ port: 3000 }, function (err, address) {
+app.listen({ port: 3000 }, function (err, address) {
 	if (err) {
 		fastify.log.error(err);
 		process.exit(1);
