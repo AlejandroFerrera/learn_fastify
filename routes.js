@@ -55,6 +55,10 @@ async function routes(fastify, options) {
 		const result = await collection.insertOne({ animal: request.body.animal });
 		return result;
 	});
+
+	fastify.get("/error", async (request, reply) => {
+		throw new Error("This is the error mesage");
+	});
 }
 
 export default routes;

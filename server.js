@@ -1,6 +1,9 @@
 "use strict";
 import { build } from "./app.js";
 import closeWithGrace from "close-with-grace";
+import dotenv from "dotenv";
+
+dotenv.config();
 const opts = {};
 
 if (process.stdout.isTTY) {
@@ -14,8 +17,10 @@ if (process.stdout.isTTY) {
 }
 
 const app = await build(opts);
+const port = process.env.PORT;
+const host = process.env.HOST;
 
-app.listen({ port: 3000 }, function (err, address) {
+app.listen({ port, host }, function (err, address) {
 	if (err) {
 		fastify.log.error(err);
 		process.exit(1);
